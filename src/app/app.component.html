@@ -1,0 +1,128 @@
+<!--Top toolbar-->
+<mat-toolbar *ngIf="!appService.getState().pageFullscreen" class="topnav-container" color="primary">
+  <!--Side Nav Button-->
+  <a mat-icon-button class="topnav-menu-btn" (click)="toggleSidenav()">
+    <mat-icon>menu</mat-icon>
+  </a>
+  <!--Application Title-->
+  <span class="topnav-title"><span>Array</span>
+  </span>
+  <span class="toolbar-filler"></span>
+  <!--Notifications Menu-->
+  <a mat-icon-button [mat-menu-trigger-for]="topnavNotificationsMenu">
+    <!--<span class="notify"></span>-->
+    <mat-icon>notifications</mat-icon>
+  </a>
+  <mat-menu #topnavNotificationsMenu="matMenu">
+  </mat-menu>
+  <!--User Menu-->
+  <a mat-icon-button [mat-menu-trigger-for]="topnavUserMenu">
+    <img class="topnav-avatar" src="assets/img/avatar.jpg">
+  </a>
+  <mat-menu #topnavUserMenu="matMenu">
+    <button mat-menu-item>
+      <mat-icon>person</mat-icon>
+      <span>Profile</span></button>
+    <button mat-menu-item>
+      <mat-icon>settings</mat-icon>
+      <span>Setting</span></button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>lock_outline</mat-icon>
+      <span>logout</span></button>
+  </mat-menu>
+</mat-toolbar>
+<!--Page container-->
+<mat-sidenav-container>
+
+  <!--Side nva bar-->
+  <mat-sidenav class="sidebar-condensed" [class.sidenav-collapse]="appService.getState().sidenavCollapse" *ngIf="!appService.getState().pageFullscreen"
+    mode="{{appService.getState().sidenavMode}}" opened="{{ appService.getState().sidenavOpen }}" align="start" (close)="closeSidenav()"
+    (open)="openSidenav()" (mouseout)="toggleSidenavCollapse()">
+    <div class="sidenav-container">
+      <mat-nav-list *ngIf="navigationMenu">
+        <mat-list-item class="array-nav-header" >
+          <a mat-line>
+            <span class="sidenav-collapse-item">NAVIGATION</span></a>
+          <i class="material-icons sidenav-collapse-item array-l0">collections_bookmark</i>
+        </mat-list-item>
+        <ng-template ngFor let-menuItem [ngForOf]="navigationMenu">
+          <ng-template [ngIf]="!menuItem.sub">
+            <mat-list-item (click)="toggleSidenavMenu(menuItem.name, false, false)" routerLink="{{menuItem.link}}" routerLinkActive="active">
+              <a mat-line>
+                <i class="material-icons" aria-hidden="true" *ngIf="menuItem.matIcon">{{menuItem.matIcon}}</i>
+                <i class="fa fa-lg {{menuItem.faIcon}}" aria-hidden="true" *ngIf="menuItem.faIcon && !menuItem.matIcon"></i>                &nbsp;&nbsp;
+                <span class="sidenav-collapse-item array-l0" style="position:relative">{{menuItem.title}}</span></a>
+            </mat-list-item>
+          </ng-template>
+          <ng-template [ngIf]="menuItem.sub">
+            <mat-list-item (click)="toggleSidenavMenu(menuItem.name, false, true)" [class.active]="activeSubMenuName === menuItem.name">
+              <a mat-line>
+                <i class="material-icons" aria-hidden="true" *ngIf="menuItem.matIcon">{{menuItem.matIcon}}</i>
+                <i class="fa fa-lg {{menuItem.faIcon}}" aria-hidden="true" *ngIf="menuItem.faIcon && !menuItem.matIcon"></i>                &nbsp;&nbsp;
+                <span class="sidenav-collapse-item array-l0">{{menuItem.title}}</span></a>
+
+              <i *ngIf="activeSubMenuName === menuItem.name" class="material-icons sidenav-collapse-item array-l0">expand_more</i>
+              <i *ngIf="activeSubMenuName !== menuItem.name" class="material-icons sidenav-collapse-item array-l0">chevron_right</i>
+            </mat-list-item>
+            <mat-list-item class="sub-item" class="sidenav-menu-sub" *ngFor="let subMenuItem of menuItem.sub" (click)="toggleSidenavMenu(subMenuItem.name, true, false )"
+              [class.show]="activeSubMenuName === menuItem.name" routerLink="{{subMenuItem.link}}" routerLinkActive="active">
+              <a mat-line class="sidenav-menu-sub-title"><span class="sidenav-collapse-item array-l1">{{subMenuItem.title}}</span></a>
+              <i class="material-icons sidenav-collapse-item array-l0">chevron_right</i>
+            </mat-list-item>
+          </ng-template>
+        </ng-template>
+      </mat-nav-list>
+      <mat-nav-list *ngIf="showAdmin==true">
+        <mat-list-item class="array-nav-header">
+          <a mat-line>
+            <span class="sidenav-collapse-item">ADMIN</span></a>
+          <i class="material-icons sidenav-collapse-item array-l0">settings</i>
+        </mat-list-item>
+        <ng-template ngFor let-menuItem [ngForOf]="adminMenu">
+          <ng-template [ngIf]="!menuItem.sub">
+            <mat-list-item (click)="toggleSidenavMenu(menuItem.name, false, false)" routerLink="{{menuItem.link}}" routerLinkActive="active">
+              <a mat-line>
+                <i class="material-icons" aria-hidden="true" *ngIf="menuItem.matIcon">{{menuItem.matIcon}}</i>
+                <i class="fa fa-lg {{menuItem.faIcon}}" aria-hidden="true" *ngIf="menuItem.faIcon && !menuItem.matIcon"></i>                &nbsp;&nbsp;
+                <span class="sidenav-collapse-item array-l0" style="position:relative">{{menuItem.title}}</span></a>
+            </mat-list-item>
+          </ng-template>
+          <ng-template [ngIf]="menuItem.sub">
+            <mat-list-item class="sub-item" (click)="toggleSidenavMenu(menuItem.name, false, true)" [class.active]="activeSubMenuName === menuItem.name">
+              <a mat-line>
+                <i class="material-icons" aria-hidden="true" *ngIf="menuItem.matIcon">{{menuItem.matIcon}}</i>
+                <i class="fa fa-lg {{menuItem.faIcon}}" aria-hidden="true" *ngIf="menuItem.faIcon && !menuItem.matIcon"></i>                &nbsp;&nbsp;
+                <span class="sidenav-collapse-item array-l0">{{menuItem.title}}</span></a>
+              <i *ngIf="activeSubMenuName === menuItem.name" class="material-icons sidenav-collapse-item array-l0">expand_more</i>
+              <i *ngIf="activeSubMenuName !== menuItem.name" class="material-icons sidenav-collapse-item array-l0">chevron_right</i>
+            </mat-list-item>
+            <mat-list-item class="sub-item" class="sidenav-menu-sub" *ngFor="let subMenuItem of menuItem.sub" (click)="toggleSidenavMenu(subMenuItem.name, true, false )"
+              [class.show]="activeSubMenuName === menuItem.name" routerLink="{{subMenuItem.link}}" routerLinkActive="active">
+              <a mat-line class="sidenav-menu-sub-title"><span class="sidenav-collapse-item array-l0">{{subMenuItem.title}}</span></a>
+              <i class="material-icons sidenav-collapse-item array-l0">chevron_right</i>
+            </mat-list-item>
+          </ng-template>
+        </ng-template>
+      </mat-nav-list>
+    </div>
+  </mat-sidenav>
+
+
+  <!--Page content-->
+  <div [class.page-container]="!appService.getState().pageFullscreen">
+    <router-outlet></router-outlet>
+    <!--Page footer-->
+    <mat-toolbar class="page-footer" *ngIf="appService.getState().pageFooter">
+      <ul>
+        <li>
+          <a title="Privacy Policy" href="/#/privacy-policy" target="_self">Privacy Policy</a>
+        </li>
+        <li>
+          <a title="Terms And Conditions" href="/#/terms-and-conditions" target="_self">Terms And Conditions</a>
+        </li>
+      </ul>
+      <span class="filler"></span>
+      <address>2017 © Array. Site by <a target="_blank" href="https://technique.software">Technique</a></address>
+    </mat-toolbar>
+  </div>
+</mat-sidenav-container>

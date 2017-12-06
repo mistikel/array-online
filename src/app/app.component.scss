@@ -1,0 +1,56 @@
+md-list-item {
+  height: 100px;
+  text-align: center;
+  position: relative;
+  display: block;
+}
+.mat-list-item-content{
+  height: 100% !important;
+}
+
+.mat-sidenav {
+  background-color: #006658 !important;
+}
+
+.mat-list-item {
+  color: whitesmoke !important;
+}
+.mat-line {
+  padding-top: 10px !important;
+  height: 100%;
+    text-align: center !important;
+    span {
+                        display: block !important;
+                        float:none !important;
+                        text-align: center !important;
+                        padding-top: 6px;
+                        padding-bottom: 6px;
+                        font-size: 12px;
+                    }
+                    i {
+
+                    }
+}
+
+.sub-item {
+  text-align: left !important;
+}
+
+.sidenav-menu-sub-title{
+ text-align: left !important;
+}
+
+md-sidenav,
+md-sidenav.md-locked-open,
+md-sidenav.md-closed.md-locked-open-add-active {
+
+    width: 85vw !important;
+    max-width: 195px !important;
+}
+
+.sidenav-container {
+  width: 195px !important;
+}
+
+
+

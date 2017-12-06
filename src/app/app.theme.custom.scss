@@ -1,0 +1,126 @@
+@import "app.theme";
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400|Open+Sans:400,700');
+//----------------------------------------------------------------------------------------------------------------------
+// Custom style sheet
+//----------------------------------------------------------------------------------------------------------------------
+@mixin custom-theme($theme) {
+
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+  $warn: map-get($theme, warn);
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  // Custom your theme here with material palette.
+
+  //body {
+  //  background-color: mat-color($background, background);
+  //  color: mat-color($primary);
+  //}
+
+  button {
+    font-family: 'Lato', sans-serif;
+  }
+
+  //---------------------------------------------------------
+  //* Array Tables
+  //---------------------------------------------------------
+
+  .array-table thead {
+    background-color: #fff;
+    color: #444444;
+    //font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .array-table thead tr {
+    border-bottom: 2pt solid #444444;
+  }
+
+  .my-pagination {
+    font-size: 16px;
+  }
+
+  .pagination-previous {
+
+  }
+
+  .my-pagination .ngx-pagination .current {
+    background: #00838f;
+  }
+
+
+
+  //---------------------------------------------------------
+  // Array Typography
+  //---------------------------------------------------------
+  h1, h2, h3, h4, h5, h6 {
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+  }
+
+  h1 {  font-size: 42px;  }
+  h2 {  font-size: 32px;  }
+  h3 {  font-size: 26px;  }
+  h4 {  font-size: 22px;  }
+
+  h1.array-page-title {
+    padding-left: 24px;
+  }
+
+  mat-card-title {
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    font-size: 32px;
+  }
+
+  //---------------------------------------------------------
+  //* Side nav
+  //---------------------------------------------------------
+  mat-sidenav-container {
+    font-family: 'Lato', sans-serif;
+
+    mat-list-item {
+      border-bottom: 0.25px solid rgba(255,255,255,0.4);
+      span.array-l0 {
+        font-size: 18px;
+        padding-top: 5px;
+      }
+
+      i {
+        font-size: 24px;
+        margin:auto;
+        text-align: center;
+        padding: 4px;
+      }
+    }
+  }
+
+  mat-list-item.array-nav-header {
+    height: 54px;
+    font-size: 14px !important;
+    text-transform: uppercase;
+    text-align: left;
+    padding-left: 5px;
+    i { font-size: 14px }
+
+  }
+
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Mixin light theme
+//----------------------------------------------------------------------------------------------------------------------
+body.light {
+  $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
+  @include custom-theme($theme);
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+// Mixin dark theme
+//----------------------------------------------------------------------------------------------------------------------
+body.dark {
+  $theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
+  @include custom-theme($theme);
+}
